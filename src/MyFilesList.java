@@ -1,24 +1,20 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MyFilesList {
 
-    public List<String> findFiles(String dir) throws NullPointerException, FileNotFoundException {
+    public List<String> findFiles(String dir) throws FileNotFoundException {
         List<String> listFileNames = new ArrayList<>();
         findFilesAll(dir, listFileNames);
         return listFileNames;
     }
 
-    public List<String> findFilesAll(String dir, List<String> listFileNames)
-            throws NullPointerException, FileNotFoundException {
+    public List<String> findFilesAll(String dir, List<String> listFileNames) throws FileNotFoundException {
 
         File file = new File(dir);
-
-        if (dir == null) {
-            throw new NullPointerException("ERROR: Parameter 'dir' is empty...");
-        }
 
         if (!file.exists()) {
             throw new FileNotFoundException("ERROR: File not found");
@@ -33,6 +29,26 @@ public class MyFilesList {
         }
 
         return listFileNames;
+    }
+
+    public void printListFiles(String[] stringPath) {
+
+        for (int i = 0; i < stringPath.length; i++) {
+
+            String dir = stringPath[i];
+            try {
+
+                List listFileNames = findFiles(dir);
+                Iterator<String> iterator = listFileNames.iterator();
+
+                while (iterator.hasNext()) {
+                    System.out.println(dir + "\\" + iterator.next());
+                }
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
     }
 }
 
